@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>AgentLog</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/app.js" defer></script>
+</head>
+<body><main>
+<h1>AgentLog</h1>
+<p>Identify verified and spoofed AI agents, bandwidth by URL, and docs failures in one upload. Raw logs are streamed and are not retained.</p>
+<p><a href="/sample">View a public report built from synthetic data</a></p>
+<form id="upload">
+<label>Log file, up to 50 MB; gzip accepted <input name="file" type="file" required></label>
+<label>Format <select name="format"><option value="">Auto-detect</option><option value="combined">Nginx / Apache combined</option><option value="caddy">Caddy JSON</option><option value="cloudflare">Cloudflare Logpush</option><option value="vercel">Vercel JSON (beta)</option></select></label>
+<label><input name="consent" type="checkbox" required> I understand that anyone with the resulting share link can see redacted route summaries.</label>
+<button>Build report</button>
+</form>
+<p id="upload-status" role="status"></p>
+<div id="after-report" hidden>
+<section id="report-summary" aria-live="polite"></section>
+<section><h2>Share</h2>
+<label>Report link <input id="share-link" readonly></label>
+<button id="copy-share" type="button">Copy share link</button><p id="copy-status" role="status"></p>
+<p>Save this deletion credential; it is shown only after upload: <code id="delete-token"></code></p>
+</section>
+<section><h2>Optional three-question survey</h2>
+<form id="survey">
+<label>Most useful result <select name="q1" required><option value="verify">Verify agents</option><option value="cost">Estimate cost</option><option value="docs">Fix docs errors</option><option value="llms">Track llms.txt</option><option value="none">None</option></select></label>
+<label>Current tool <select name="q2" required><option value="known_agents">Known Agents</option><option value="botcost">BotCost</option><option value="cloudflare">Cloudflare</option><option value="other">Other</option><option value="none">None</option></select></label>
+<label>Current solution <select name="q3" required><option value="free_enough">Free is enough</option><option value="would_pay">Would pay</option><option value="missing">Missing features</option><option value="unknown">Unsure</option></select></label>
+<label>Other tool (optional, 1,024 bytes maximum) <input name="other" maxlength="1024"></label>
+<button>Submit survey</button>
+</form><p id="survey-status" role="status"></p>
+</section>
+</div>
+<section><h2>Copy rules</h2>
+<p>These rules do not enforce blocking until you install them. UA matching alone does not verify identity.</p>
+<form id="rules">
+<label>Agent IDs, comma separated <input name="selected" value="openai-gptbot" required></label>
+<label>Paths, comma separated <input name="paths" value="/"></label>
+<button>Generate copy-only rules</button>
+</form>
+<label>robots.txt <textarea id="rule-robots" rows="5" readonly></textarea></label><button id="copy-robots" type="button">Copy robots.txt</button>
+<label>WAF <textarea id="rule-waf" rows="5" readonly></textarea></label><button id="copy-waf" type="button">Copy WAF expression</button>
+<label>nginx <textarea id="rule-nginx" rows="5" readonly></textarea></label><button id="copy-nginx" type="button">Copy nginx rules</button>
+<p id="rules-status" role="status"></p>
+</section>
+<section><h2>Want this regularly?</h2>
+<p><a href="/go/preorder">Preorder $19/mo (refundable)</a></p>
+<form id="waitlist"><label>Email <input name="email" type="email" maxlength="254" required></label><button>Join waitlist</button></form>
+<p id="waitlist-status" role="status"></p><p>Contact records go to the separate contact vault.</p>
+</section>
+</main></body></html>
